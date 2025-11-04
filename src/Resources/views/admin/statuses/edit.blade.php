@@ -1,10 +1,10 @@
-@extends('admin::layouts.master')
+@extends('layouts.admin')
 
 @section('page_title')
     Edit Status
 @stop
 
-@section('content-wrapper')
+@section('content')
     <div class="content full-page">
         <div class="page-header">
             <div class="page-title">
