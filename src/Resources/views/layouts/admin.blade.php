@@ -12,7 +12,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="/admin/support/canned-responses">Canned Responses</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/support/categories">Categories</a></li>
-                <li class="nav-item"><a class="nav-link" href="/admin/support/priorities">Priorities</a></li
+                <li class="nav-item"><a class="nav-link" href="/admin/support/priorities">Priorities</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/support/rules">Rules</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/support/statuses">Statuses</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/support/tickets">Tickets</a></li>
