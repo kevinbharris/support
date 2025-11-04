@@ -1,0 +1,36 @@
+{
+    "name": "kevinbharris/support",
+    "description": "A Contact/Ticket mini helpdesk package for Bagisto v2.3.5",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kevin B Harris",
+            "email": "kevin@example.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1|^8.2",
+        "laravel/framework": "^10.0",
+        "webkul/ui": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "KevinBHarris\\Support\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KevinBHarris\\Support\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KevinBHarris\\Support\\Providers\\SupportServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
