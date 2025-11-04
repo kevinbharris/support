@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^8.1|^8.2",
-        "laravel/framework": "^10.0",
+        "laravel/framework": "^11.0",
         "webkul/ui": "^2.0"
     },
     "autoload": {
