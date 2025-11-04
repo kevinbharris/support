@@ -1,4 +1,4 @@
-@extends('admin::layouts.master')
+@extends('layouts.admin')
 
 @section('page_title')
     Create Ticket
