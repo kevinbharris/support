@@ -4,7 +4,7 @@
     Create Status
 @stop
 
-@section('content-wrapper')
+@section('content')
     <div class="content full-page">
         <div class="page-header">
             <div class="page-title">
