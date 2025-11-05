@@ -161,7 +161,7 @@ All admin routes are prefixed with `/admin/support`:
 - `/support/contact` - Contact form for submitting new tickets
 - `/support/ticket/{token}` - View and reply to ticket
 
-### Add Customer Service Portal Routes to Theme
+### Add Customer Service Portal to Theme
 - Open Admin Panel/Settings/Theme.
 - Look for "Footer Links" and click "Edit".
 - Add Link to "https://your-domain.com/support/contact".
