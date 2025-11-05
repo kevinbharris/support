@@ -47,6 +47,10 @@ class SupportServiceProvider extends ServiceProvider
             $this->publishes([
                 dirname(__DIR__) . '/Resources/views' => resource_path('views/vendor/support'),
             ], 'support-views');
+            
+            $this->publishes([
+                dirname(__DIR__) . '/Resources/assets' => public_path('vendor/support'),
+            ], 'support-assets');
         }
         
         $this->registerEventListeners();
