@@ -276,8 +276,8 @@ The package creates the following tables:
 ## Requirements
 
 - PHP 8.1 or higher
-- Laravel 10.x
-- Bagisto 2.3.5
+- Laravel 11.x
+- Bagisto 2.3.8
 - MySQL 5.7+ or PostgreSQL
 
 ## License
