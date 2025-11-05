@@ -106,7 +106,7 @@ Use descriptive branch names:
 If you need help or have questions:
 - Open an issue on GitHub
 - Check existing issues and documentation
-- Email: support@example.com
+- Email: kevin.b.harris.2015@gmail.com
 
 ## License
 
