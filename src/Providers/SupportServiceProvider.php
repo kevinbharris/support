@@ -79,25 +79,46 @@ class SupportServiceProvider extends ServiceProvider
                 'sort'   => 10,
                 'children' => [
                     [
+                        'key'   => 'support.canned_responses',
+                        'label' => 'Canned Responses',
+                        'route' => 'admin.support.canned-responses.index',
+                        'icon'  => 'icon-canned-responses',
+                        'sort'  => 1,
+                    ],
+                    [
+                        'key'   => 'support.categories',
+                        'label' => 'Categories',
+                        'route' => 'admin.support.categories.index',
+                        'icon'  => 'icon-categories',
+                        'sort'  => 2,
+                    ],
+                    [
+                        'key'   => 'support.priorities',
+                        'label' => 'Priorities',
+                        'route' => 'admin.support.priorities.index',
+                        'icon'  => 'icon-priorities',
+                        'sort'  => 3,
+                    ],
+                    [
+                        'key'   => 'support.rules',
+                        'label' => 'Rules',
+                        'route' => 'admin.support.rules.index',
+                        'icon'  => 'icon-rules',
+                        'sort'  => 4,
+                    ],
+                    [
+                        'key'   => 'support.statuses',
+                        'label' => 'Statuses',
+                        'route' => 'admin.support.statuses.index',
+                        'icon'  => 'icon-statuses',
+                        'sort'  => 5,
+                    ],
+                    [
                         'key'   => 'support.tickets',
                         'label' => 'Tickets',
                         'route' => 'admin.support.tickets.index',
                         'icon'  => 'icon-ticket',
-                        'sort'  => 1,
-                    ],
-                    [
-                        'key'   => 'support.new_ticket',
-                        'label' => 'New Ticket',
-                        'route' => 'admin.support.tickets.create',
-                        'icon'  => 'icon-plus',
-                        'sort'  => 2,
-                    ],
-                    [
-                        'key'   => 'support.settings',
-                        'label' => 'Settings',
-                        'route' => 'admin.support.statuses.index',
-                        'icon'  => 'icon-settings',
-                        'sort'  => 3,
+                        'sort'  => 6,
                     ],
                 ]
             ]);
