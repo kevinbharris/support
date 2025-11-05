@@ -178,37 +178,19 @@ Instead of using a hardcoded contact route, create a custom CMS page in Bagisto 
 ```html
 <h2>Contact Our Help Desk</h2>
 <p>If you need help, please use the form below to get in touch with our support team.</p>
-<form action="/support/contact" method="POST">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    
-    <label for="customer_name">Your Name:</label><br>
-    <input type="text" name="customer_name" id="customer_name" required><br><br>
-    
-    <label for="customer_email">Your Email:</label><br>
-    <input type="email" name="customer_email" id="customer_email" required><br><br>
-    
-    <label for="category_id">Category:</label><br>
-    <select name="category_id" id="category_id" required>
-        <option value="">-- Select Category --</option>
-        <option value="1">General</option>
-        <option value="2">Technical</option>
-        <option value="3">Billing</option>
-    </select><br><br>
-    
-    <label for="subject">Subject:</label><br>
-    <input type="text" name="subject" id="subject" required><br><br>
-    
-    <label for="description">Message:</label><br>
-    <textarea name="description" id="description" rows="5" required></textarea><br><br>
-    
+<form action="mailto:support@yourdomain.com" method="POST" enctype="text/plain">
+    <label for="name">Your Name:</label><br>
+    <input type="text" name="name" required><br><br>
+    <label for="email">Your Email:</label><br>
+    <input type="email" name="email" required><br><br>
+    <label for="message">Message:</label><br>
+    <textarea name="message" rows="5" required></textarea><br><br>
     <button type="submit">Send</button>
 </form>
 ```
 
-5. **Update Category Values**: Adjust the category option values to match your actual category IDs from the admin panel
+5. **Customize Email Address**: Replace `support@yourdomain.com` with your actual support email address
 6. **Save and Publish**: Save the page and verify it's accessible at `/content/contact` (or your chosen URL key)
-
-**Note**: The form submits to `/support/contact` which creates a new support ticket. Make sure you have created at least one category, status, and priority in the admin panel before testing the form.
 
 ### Creating Tickets Programmatically
 
