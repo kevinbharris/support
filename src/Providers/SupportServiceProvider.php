@@ -54,7 +54,6 @@ class SupportServiceProvider extends ServiceProvider
         }
         
         $this->registerEventListeners();
-        $this->registerAdminMenu();
     }
 
     /**
