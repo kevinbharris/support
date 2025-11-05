@@ -5,6 +5,7 @@ namespace KevinBHarris\Support\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Helpers\Menu;
+use Illuminate\Routing\Router;
 
 class SupportServiceProvider extends ServiceProvider
 {
@@ -55,6 +56,7 @@ class SupportServiceProvider extends ServiceProvider
         
         $this->registerEventListeners();
         $this->registerAdminMenu();
+        $this->registerMiddleware();
     }
 
     /**
@@ -84,5 +86,14 @@ class SupportServiceProvider extends ServiceProvider
     protected function registerAdminMenu(): void
     {
         // Menu items are registered via config merging in the register() method
+    }
+
+    /**
+     * Register middleware to automatically inject support assets.
+     */
+    protected function registerMiddleware(): void
+    {
+        $router = $this->app->make(Router::class);
+        $router->pushMiddlewareToGroup('web', \KevinBHarris\Support\Http\Middleware\InjectSupportAssets::class);
     }
 }
