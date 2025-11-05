@@ -23,7 +23,7 @@ Drop‑in contact form and mini helpdesk for Bagisto v2.3.5. Turn inquiries into
 
 ### Customer Features
 - **Token Portal**: Secure token-based access to tickets (no login required)
-- **Contact Form**: Easy-to-use contact form for submitting tickets
+- **CMS-Based Contact Page**: Create a custom contact/help desk page using Bagisto CMS
 - **Email Notifications**: Automatic email updates on ticket status changes
 - **Reply System**: Customers can reply to tickets via the portal
 
@@ -158,8 +158,57 @@ All admin routes are prefixed with `/admin/support`:
 
 ### Customer Portal Routes
 
-- `/support/contact` - Contact form for submitting new tickets
 - `/support/ticket/{token}` - View and reply to ticket
+
+### Creating a Contact/Help Desk Page with Bagisto CMS
+
+Instead of using a hardcoded contact route, create a custom CMS page in Bagisto for your support contact form. This provides more flexibility and allows you to customize the page content through the admin panel.
+
+#### Steps to Create CMS Contact Page:
+
+1. **Navigate to Bagisto Admin**: Go to **Settings** > **Content** > **Pages**
+2. **Create New Page**: Click **Add Page**
+3. **Configure Page Settings**:
+   - **Page Title**: Contact Support / Help Desk
+   - **URL Key**: `contact` or `help`
+   - **Status**: Enable
+   - **Channels**: Select appropriate channels
+4. **Add HTML Content**: In the content editor, switch to **HTML Source** mode and paste the following sample form:
+
+```html
+<h2>Contact Our Help Desk</h2>
+<p>If you need help, please use the form below to get in touch with our support team.</p>
+<form action="/support/contact" method="POST">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    
+    <label for="customer_name">Your Name:</label><br>
+    <input type="text" name="customer_name" id="customer_name" required><br><br>
+    
+    <label for="customer_email">Your Email:</label><br>
+    <input type="email" name="customer_email" id="customer_email" required><br><br>
+    
+    <label for="category_id">Category:</label><br>
+    <select name="category_id" id="category_id" required>
+        <option value="">-- Select Category --</option>
+        <option value="1">General</option>
+        <option value="2">Technical</option>
+        <option value="3">Billing</option>
+    </select><br><br>
+    
+    <label for="subject">Subject:</label><br>
+    <input type="text" name="subject" id="subject" required><br><br>
+    
+    <label for="description">Message:</label><br>
+    <textarea name="description" id="description" rows="5" required></textarea><br><br>
+    
+    <button type="submit">Send</button>
+</form>
+```
+
+5. **Update Category Values**: Adjust the category option values to match your actual category IDs from the admin panel
+6. **Save and Publish**: Save the page and verify it's accessible at `/content/contact` (or your chosen URL key)
+
+**Note**: The form submits to `/support/contact` which creates a new support ticket. Make sure you have created at least one category, status, and priority in the admin panel before testing the form.
 
 ### Creating Tickets Programmatically
 

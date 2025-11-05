@@ -9,7 +9,6 @@ Route::group(['prefix' => 'support', 'middleware' => ['web']], function () {
     Route::get('ticket/{token}', [PortalController::class, 'show'])->name('support.portal.show');
     Route::post('ticket/{token}/reply', [PortalController::class, 'reply'])->name('support.portal.reply');
     
-    // Contact form
-    Route::get('contact', [PortalController::class, 'contact'])->name('support.portal.contact');
+    // Contact/ticket submission via CMS page (POST endpoint kept for form submission)
     Route::post('contact', [PortalController::class, 'submitTicket'])->name('support.portal.submit');
 });

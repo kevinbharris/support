@@ -14,12 +14,6 @@ use KevinBHarris\Support\Events\NoteAdded;
 
 class PortalController extends Controller
 {
-    public function contact()
-    {
-        $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
-        return view('support::portal.contact', compact('categories'));
-    }
-
     public function submitTicket(Request $request)
     {
         $rules = [
