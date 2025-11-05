@@ -51,10 +51,6 @@ class SupportServiceProvider extends ServiceProvider
             $this->publishes([
                 dirname(__DIR__) . '/Resources/assets' => public_path('vendor/support'),
             ], 'support-assets');
-			
-			$this->publishes([
-				__DIR__ . '/../Resources/assets/css/app.css' => public_path('vendor/support/app.css'),
-			], 'public');
         }	
 		
 		// Inject the CSS into the Bagisto admin layout
