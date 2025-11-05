@@ -2,7 +2,7 @@
 
 ## kevinbharris/support v1.0.0
 
-A comprehensive Contact/Ticket mini helpdesk system for Bagisto v2.3.5.
+A comprehensive Contact/Ticket mini helpdesk system for Bagisto v2.3.8.
 
 ### Package Type
 Laravel Package / Bagisto Extension
@@ -232,7 +232,7 @@ Note
 
 ### Bagisto Integration
 - Uses Bagisto admin layout
-- Compatible with Bagisto 2.3.5
+- Compatible with Bagisto 2.3.8
 - Follows Bagisto conventions
 - Works with Bagisto middleware
 - Integrates with admin panel
@@ -286,7 +286,7 @@ Note
 
 All requirements from the problem statement have been implemented:
 
-✅ Bagisto v2.3.5 Laravel package
+✅ Bagisto v2.3.8 Laravel package
 ✅ Namespace: KevinBHarris\Support
 ✅ Admin UI with all required features
 ✅ Statuses (new/open/resolved/closed)
