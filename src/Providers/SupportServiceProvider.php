@@ -73,7 +73,7 @@ class SupportServiceProvider extends ServiceProvider
         Event::listen('admin.menu.build', function () {
             Menu::add([
                 'key'    => 'support',
-                'label'  => 'Support',
+                'label'  => 'Help Desk',
                 'route'  => 'admin.support.tickets.index',
                 'icon'   => 'icon-support',
                 'sort'   => 10,
