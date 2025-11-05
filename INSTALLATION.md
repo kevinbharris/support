@@ -239,7 +239,7 @@ php artisan migrate:rollback --step=1
 ## Support
 
 - GitHub Issues: [https://github.com/kevinbharris/support](https://github.com/kevinbharris/support/issues)
-- Email: support@example.com
+- Email: kevin.b.harris.2015@gmail.com
 
 ---
 
