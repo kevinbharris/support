@@ -11,9 +11,9 @@
 @endpush
 
 <x-shop::layouts
-    :has-header="true"
+    :has-header="false"
     :has-feature="false"
-    :has-footer="true"
+    :has-footer="false"
 >
     <!-- Page Title -->
     <x-slot:title>
@@ -21,6 +21,22 @@
     </x-slot:title>
 	
     <div class="container mt-20 max-1180:px-5 max-md:mt-12">
+        <!-- Company Logo -->
+        <div class="flex items-center gap-x-14 max-[1180px]:gap-x-9">
+            <a
+                href="{{ route('shop.home.index') }}"
+                class="m-[0_auto_20px_auto]"
+                aria-label="@lang('shop::app.customers.signup-form.bagisto')"
+            >
+                <img
+                    src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
+                    alt="{{ config('app.name') }}"
+                    width="131"
+                    height="29"
+                >
+            </a>
+        </div>	
+	
         <!-- Form Container -->
         <div class="m-auto w-full max-w-[870px] rounded-xl border border-zinc-200 p-16 px-[90px] max-md:px-8 max-md:py-8 max-sm:border-none max-sm:p-0">
             <h1 class="font-dmserif text-4xl max-md:text-3xl max-sm:text-xl">
