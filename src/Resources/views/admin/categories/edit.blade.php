@@ -1,45 +1,57 @@
-@extends('layouts.admin')
+<x-admin::layouts>
+    <x-slot:title>
+        @lang('Edit Category')
+    </x-slot:title>
 
-@section('page_title')
-    Edit Status
-@stop
+    <div class="flex gap-4 justify-between items-center max-sm:flex-wrap">
+        <p class="text-xl text-gray-800 dark:text-white font-bold">
+            @lang('Edit Category')
+        </p>
+    </div>
 
-@section('content')
-    <div class="content full-page">
-        <div class="page-header">
-            <div class="page-title">
-                <h1>Edit Status</h1>
-            </div>
-        </div>
+    <div class="mt-8">
+        <form action="{{ route('admin.support.categories.update', $category->id) }}" method="POST" class="bg-white dark:bg-gray-900 rounded box-shadow">
+            @csrf
+            @method('PUT')
 
-        <div class="page-content">
-            <form action="{{ route('admin.support.statuses.update', $status->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="form-group">
-                    <label>Name *</label>
-                    <input type="text" name="name" class="form-control" value="{{ $status->name }}" required>
+            <div class="p-4 space-y-4">
+                <div>
+                    <label for="name" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
+                        @lang('Name')
+                    </label>
+                    <input type="text" name="name" id="name" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ $category->name }}" required>
                 </div>
-                <div class="form-group">
-                    <label>Code *</label>
-                    <input type="text" name="code" class="form-control" value="{{ $status->code }}" required>
+
+                <div>
+                    <label for="slug" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
+                        @lang('Slug')
+                    </label>
+                    <input type="text" name="slug" id="slug" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ $category->slug }}" required>
                 </div>
-                <div class="form-group">
-                    <label>Color *</label>
-                    <input type="color" name="color" class="form-control" value="{{ $status->color }}" required>
+
+                <div>
+                    <label for="sort_order" class="block text-xs text-gray-600 dark:text-gray-300 font-medium">
+                        @lang('Sort Order')
+                    </label>
+                    <input type="number" name="sort_order" id="sort_order" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ $category->sort_order }}">
                 </div>
-                <div class="form-group">
-                    <label>Sort Order</label>
-                    <input type="number" name="sort_order" class="form-control" value="{{ $status->sort_order }}">
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" name="is_active" value="1" {{ $status->is_active ? 'checked' : '' }}> Active
+
+                <div>
+                    <label class="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                        <input type="checkbox" name="is_active" value="1" {{ $category->is_active ? 'checked' : '' }} class="mr-2">
+                        @lang('Active')
                     </label>
                 </div>
-                <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{{ route('admin.support.statuses.index') }}" class="btn btn-secondary">Cancel</a>
-            </form>
-        </div>
+            </div>
+
+            <div class="flex gap-2 justify-end p-4 border-t dark:border-gray-800">
+                <a href="{{ route('admin.support.categories.index') }}" class="secondary-button">
+                    @lang('Cancel')
+                </a>
+                <button type="submit" class="primary-button">
+                    @lang('Update')
+                </button>
+            </div>
+        </form>
     </div>
-@stop
+</x-admin::layouts>

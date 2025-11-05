@@ -1,45 +1,64 @@
-@extends('layouts.admin')
+<x-admin::layouts>
+    <x-slot:title>
+        @lang('Edit Priority')
+    </x-slot:title>
 
-@section('page_title')
-    Edit Status
-@stop
+    <div class="flex gap-4 justify-between items-center max-sm:flex-wrap">
+        <p class="text-xl text-gray-800 dark:text-white font-bold">
+            @lang('Edit Priority')
+        </p>
+    </div>
 
-@section('content')
-    <div class="content full-page">
-        <div class="page-header">
-            <div class="page-title">
-                <h1>Edit Status</h1>
-            </div>
-        </div>
+    <div class="mt-8">
+        <form action="{{ route('admin.support.priorities.update', $priority->id) }}" method="POST" class="bg-white dark:bg-gray-900 rounded box-shadow">
+            @csrf
+            @method('PUT')
 
-        <div class="page-content">
-            <form action="{{ route('admin.support.statuses.update', $status->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="form-group">
-                    <label>Name *</label>
-                    <input type="text" name="name" class="form-control" value="{{ $status->name }}" required>
+            <div class="p-4 space-y-4">
+                <div>
+                    <label for="name" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
+                        @lang('Name')
+                    </label>
+                    <input type="text" name="name" id="name" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ $priority->name }}" required>
                 </div>
-                <div class="form-group">
-                    <label>Code *</label>
-                    <input type="text" name="code" class="form-control" value="{{ $status->code }}" required>
+
+                <div>
+                    <label for="code" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
+                        @lang('Code')
+                    </label>
+                    <input type="text" name="code" id="code" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ $priority->code }}" required>
                 </div>
-                <div class="form-group">
-                    <label>Color *</label>
-                    <input type="color" name="color" class="form-control" value="{{ $status->color }}" required>
+
+                <div>
+                    <label for="color" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
+                        @lang('Color')
+                    </label>
+                    <input type="color" name="color" id="color" class="flex w-20 h-10 border rounded-md transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800" value="{{ $priority->color }}" required>
                 </div>
-                <div class="form-group">
-                    <label>Sort Order</label>
-                    <input type="number" name="sort_order" class="form-control" value="{{ $status->sort_order }}">
+
+                <div>
+                    <label for="sort_order" class="block text-xs text-gray-600 dark:text-gray-300 font-medium">
+                        @lang('Sort Order')
+                    </label>
+                    <input type="number" name="sort_order" id="sort_order" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ $priority->sort_order }}">
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" name="is_active" value="1" {{ $status->is_active ? 'checked' : '' }}> Active
+
+                <div>
+                    <label class="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                        <input type="checkbox" name="is_active" value="1" {{ $priority->is_active ? 'checked' : '' }} class="mr-2">
+                        @lang('Active')
                     </label>
                 </div>
-                <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{{ route('admin.support.statuses.index') }}" class="btn btn-secondary">Cancel</a>
-            </form>
-        </div>
+            </div>
+
+            <div class="flex gap-2 justify-end p-4 border-t dark:border-gray-800">
+                <a href="{{ route('admin.support.priorities.index') }}" class="secondary-button">
+                    @lang('Cancel')
+                </a>
+                <button type="submit" class="primary-button">
+                    @lang('Update')
+                </button>
+            </div>
+        </form>
     </div>
-@stop
+</x-admin::layouts>
