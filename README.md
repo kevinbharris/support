@@ -35,21 +35,44 @@ Drop‑in contact form and mini helpdesk for Bagisto v2.3.5. Turn inquiries into
 composer require kevinbharris/support
 ```
 
-### Step 2: Publish Configuration, Views, and Assets (Optional)
+### Step 2: Publish Configuration, Views, and Assets
+
+**Required for custom ticket icon to display:**
+
+```bash
+php artisan vendor:publish --tag=support-assets
+```
+
+**Optional (for customization):**
 
 ```bash
 php artisan vendor:publish --tag=support-config
 php artisan vendor:publish --tag=support-views
-php artisan vendor:publish --tag=support-assets
 ```
 
-### Step 3: Run Migrations
+### Step 3: Include Support Admin CSS
+
+To display the custom ticket icon in the admin menu, add the following to your Bagisto admin layout file (typically `resources/views/admin/layouts/master.blade.php` or in the `<head>` section of your admin layout):
+
+```html
+<link rel="stylesheet" href="{{ asset('vendor/support/assets/css/admin.css') }}">
+```
+
+Alternatively, you can publish Bagisto's admin views and add the CSS link:
+
+```bash
+php artisan vendor:publish --tag=bagisto-admin-views
+```
+
+Then edit `resources/views/admin/layouts/master.blade.php` to include the CSS file in the `<head>` section.
+
+### Step 4: Run Migrations
 
 ```bash
 php artisan migrate
 ```
 
-### Step 4: Create Default Statuses and Priorities
+### Step 5: Create Default Statuses and Priorities
 
 You can manually create statuses and priorities via the admin panel, or seed them programmatically:
 

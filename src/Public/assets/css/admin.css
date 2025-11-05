@@ -1,0 +1,17 @@
+/* Support Package Admin Styles */
+
+/* Custom SVG icon for Help Desk menu item */
+.icon-ticket {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('../icons/ticket.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Override for menu icons to support SVG background images */
+.menu-item .icon-ticket::before {
+    content: none;
+}
