@@ -4,6 +4,7 @@ namespace KevinBHarris\Support\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Webkul\Admin\Helpers\Menu;
 
 class SupportServiceProvider extends ServiceProvider
 {
@@ -40,6 +41,7 @@ class SupportServiceProvider extends ServiceProvider
         }
         
         $this->registerEventListeners();
+        $this->registerAdminMenu();
     }
 
     /**
@@ -61,5 +63,65 @@ class SupportServiceProvider extends ServiceProvider
             \KevinBHarris\Support\Events\NoteAdded::class,
             \KevinBHarris\Support\Listeners\SendNoteAddedNotification::class
         );
+    }
+
+    /**
+     * Register admin menu.
+     */
+    protected function registerAdminMenu(): void
+    {
+        Event::listen('admin.menu.build', function () {
+            Menu::add([
+                'key'    => 'support',
+                'label'  => 'Support',
+                'route'  => 'admin.support.tickets.index',
+                'icon'   => 'icon-support',
+                'sort'   => 10,
+                'children' => [
+                    [
+                        'key'   => 'support.canned_responses',
+                        'label' => 'Canned Responses',
+                        'route' => 'admin.support.canned-responses.index',
+                        'icon'  => 'icon-canned-responses',
+                        'sort'  => 1,
+                    ],
+                    [
+                        'key'   => 'support.categories',
+                        'label' => 'Categories',
+                        'route' => 'admin.support.categories.index',
+                        'icon'  => 'icon-categories',
+                        'sort'  => 2,
+                    ],
+                    [
+                        'key'   => 'support.priorities',
+                        'label' => 'Priorities',
+                        'route' => 'admin.support.priorities.index',
+                        'icon'  => 'icon-priorities',
+                        'sort'  => 3,
+                    ],
+                    [
+                        'key'   => 'support.rules',
+                        'label' => 'Rules',
+                        'route' => 'admin.support.rules.index',
+                        'icon'  => 'icon-rules',
+                        'sort'  => 4,
+                    ],
+                    [
+                        'key'   => 'support.statuses',
+                        'label' => 'Statuses',
+                        'route' => 'admin.support.statuses.index',
+                        'icon'  => 'icon-statuses',
+                        'sort'  => 5,
+                    ],
+                    [
+                        'key'   => 'support.tickets',
+                        'label' => 'Tickets',
+                        'route' => 'admin.support.tickets.index',
+                        'icon'  => 'icon-ticket',
+                        'sort'  => 6,
+                    ],
+                ]
+            ]);
+        });
     }
 }
