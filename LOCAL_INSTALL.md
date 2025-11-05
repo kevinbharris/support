@@ -1,6 +1,5 @@
 # Local Install Guide for Bagisto Extension (`kevinbharris/support`)
-
-Install and configure the Support Helpdesk extension for Bagisto v2.3.8 (Laravel 11) locally.
+_Install as a local package (not on Packagist) in Bagisto v2.3.8 / Laravel 11_
 
 ---
 
@@ -10,64 +9,107 @@ Install and configure the Support Helpdesk extension for Bagisto v2.3.8 (Laravel
 - **Laravel:** 11.x
 - **Bagisto:** 2.3.8
 - **Composer**
+- **Git** (for cloning, recommended)
 
 ---
 
 ## Installation Steps
 
-### 1. Start with Bagisto 2.3.8
+### 1. Clone or Download the `kevinbharris/support` Repository
 
-Use an existing Bagisto v2.3.8 app, or install one:
-
-```bash
-composer create-project bagisto/bagisto:^2.3.8 bagisto
-cd bagisto
-```
-
-### 2. Require the Support Extension
+Clone the package into a suitable directory (such as `packages/kevinbharris/support`):
 
 ```bash
-composer require kevinbharris/support
+mkdir -p packages/kevinbharris
+git clone https://github.com/kevinbharris/support.git packages/kevinbharris/support
 ```
 
-### 3. Publish Package Resources
+Alternatively, download and extract the ZIP manually to `packages/kevinbharris/support`.
 
-Publish the configuration file (optional, recommended):
+---
+
+### 2. Configure Composer to Use the Local Package
+
+Open your Bagisto project's `composer.json` and add this under `repositories`:
+
+```json
+"repositories": [
+    {
+        "type": "path",
+        "url": "packages/kevinbharris/support"
+    }
+]
+```
+
+Add `"kevinbharris/support": "*"` to your `require` section:
+
+```json
+"require": {
+    "kevinbharris/support": "*"
+}
+```
+
+---
+
+### 3. Install & Autoload the Package
+
+Run:
+
+```bash
+composer update kevinbharris/support
+```
+
+If you see any autoloading issues or the package isn't detected, try:
+
+```bash
+composer dump-autoload
+```
+
+---
+
+### 4. Publish Configuration & Views
+
+Publish the configuration file (optional):
 
 ```bash
 php artisan vendor:publish --tag=support-config
 ```
 
-Publish views if you plan to customize:
+Publish views if needed:
 
 ```bash
 php artisan vendor:publish --tag=support-views
 ```
 
-### 4. Prepare Your Environment
+---
 
-Add these entries to your `.env` file, then edit as needed:
+### 5. Environment Setup
+
+Edit your `.env` file:
 
 ```env
 SUPPORT_FROM_EMAIL=support@yourdomain.com
 SUPPORT_FROM_NAME="Your Support Team"
-# Slack Integration (Optional)
 SUPPORT_SLACK_ENABLED=false
 SUPPORT_SLACK_WEBHOOK_URL=
 SUPPORT_SLACK_CHANNEL=#support
 SUPPORT_SLACK_USERNAME="Support Bot"
 ```
 
-### 5. Run Migrations
+---
+
+### 6. Run Database Migrations
 
 ```bash
 php artisan migrate
 ```
-Creates all required support tables.
+Creates all support tables.
 
-### 6. Seed Default Data
+---
 
-You can seed via the admin panel, or run in tinker:
+### 7. Seed Default Data
+
+Use the admin panel or seed with tinker:
 
 ```php
 use KevinBHarris\Support\Models\Status;
@@ -78,7 +120,6 @@ Status::create(['name' => 'New', 'code' => 'new', 'color' => '#3b82f6', 'sort_or
 Status::create(['name' => 'Open', 'code' => 'open', 'color' => '#f59e0b', 'sort_order' => 2, 'is_active' => true]);
 Status::create(['name' => 'Resolved', 'code' => 'resolved', 'color' => '#10b981', 'sort_order' => 3, 'is_active' => true]);
 Status::create(['name' => 'Closed', 'code' => 'closed', 'color' => '#6b7280', 'sort_order' => 4, 'is_active' => true]);
-
 Priority::create(['name' => 'Low', 'code' => 'low', 'color' => '#6b7280', 'sort_order' => 1, 'is_active' => true]);
 Priority::create(['name' => 'Medium', 'code' => 'medium', 'color' => '#f59e0b', 'sort_order' => 2, 'is_active' => true]);
 Priority::create(['name' => 'High', 'code' => 'high', 'color' => '#ef4444', 'sort_order' => 3, 'is_active' => true]);
@@ -89,14 +130,18 @@ Priority::create(['name' => 'High', 'code' => 'high', 'color' => '#ef4444', 'sor
 ## Usage
 
 - Admin panel: Manage tickets, categories, priorities, statuses, etc.
-- Customer-facing: Contact form and portal access for ticket management.
+- Customers: Use contact form & portal for ticket management.
 
 ---
 
 ## Troubleshooting
 
-- Confirm Bagisto version is 2.3.8 and Laravel is 11.x.
-- Run `composer dump-autoload` if you experience autoloading issues.
-- Review [README.md](https://github.com/kevinbharris/support/blob/main/README.md) and [INSTALLATION.md](https://github.com/kevinbharris/support/blob/main/INSTALLATION.md) for more help.
+- Confirm the package path in `composer.json` matches where you placed support.
+- If the package is not detected, run `composer dump-autoload`.
+- For advanced issues: check the documentation, codebase, or open an issue on GitHub.
 
 ---
+
+**See also:**  
+- [INSTALLATION.md](https://github.com/kevinbharris/support/blob/main/INSTALLATION.md)  
+- [README.md](https://github.com/kevinbharris/support/blob/main/README.md)
