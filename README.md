@@ -35,11 +35,12 @@ Drop‑in contact form and mini helpdesk for Bagisto v2.3.5. Turn inquiries into
 composer require kevinbharris/support
 ```
 
-### Step 2: Publish Configuration and Views (Optional)
+### Step 2: Publish Configuration, Views, and Assets (Optional)
 
 ```bash
 php artisan vendor:publish --tag=support-config
 php artisan vendor:publish --tag=support-views
+php artisan vendor:publish --tag=support-assets
 ```
 
 ### Step 3: Run Migrations

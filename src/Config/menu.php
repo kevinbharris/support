@@ -15,7 +15,7 @@ return [
 			'name'  => 'Help Desk',
 			'route'  => 'admin.support.tickets.index',
 			'sort'   => 4,
-			'icon'   => 'icon-support',
+			'icon'   => 'icon-ticket',
 		],[
             'key'   => 'support.canned_responses',
             'name' => 'Canned Responses',

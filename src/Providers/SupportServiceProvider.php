@@ -47,6 +47,10 @@ class SupportServiceProvider extends ServiceProvider
             $this->publishes([
                 dirname(__DIR__) . '/Resources/views' => resource_path('views/vendor/support'),
             ], 'support-views');
+            
+            $this->publishes([
+                dirname(__DIR__) . '/Public/assets' => public_path('vendor/support/assets'),
+            ], 'support-assets');
         }
         
         $this->registerEventListeners();
@@ -72,5 +76,13 @@ class SupportServiceProvider extends ServiceProvider
             \KevinBHarris\Support\Events\NoteAdded::class,
             \KevinBHarris\Support\Listeners\SendNoteAddedNotification::class
         );
+    }
+
+    /**
+     * Register admin menu.
+     */
+    protected function registerAdminMenu(): void
+    {
+        // Menu items are registered via config merging in the register() method
     }
 }
