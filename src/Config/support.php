@@ -82,6 +82,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | ReCaptcha Configuration
+    |--------------------------------------------------------------------------
+    */
+    'recaptcha_enabled' => env('SUPPORT_RECAPTCHA_ENABLED', false),
+    'recaptcha_site_key' => env('SUPPORT_RECAPTCHA_SITE_KEY', ''),
+    'recaptcha_secret_key' => env('SUPPORT_RECAPTCHA_SECRET_KEY', ''),
+
+    /*
+    |--------------------------------------------------------------------------
     | Rules Configuration
     |--------------------------------------------------------------------------
     */

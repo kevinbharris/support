@@ -22,13 +22,20 @@ class PortalController extends Controller
 
     public function submitTicket(Request $request)
     {
-        $validated = $request->validate([
+        $rules = [
             'customer_name' => 'required|string|max:255',
             'customer_email' => 'required|email',
             'subject' => 'required|string|max:255',
             'description' => 'required|string',
             'category_id' => 'required|exists:support_categories,id',
-        ]);
+        ];
+
+        // Add ReCaptcha validation if enabled
+        if (config('support.recaptcha_enabled') && config('support.recaptcha_site_key')) {
+            $rules['g-recaptcha-response'] = 'required';
+        }
+
+        $validated = $request->validate($rules);
 
         // Get default status and priority
         $defaultStatus = Status::where('code', 'new')->first() ?? Status::first();

@@ -65,6 +65,16 @@
                                 @enderror
                             </div>
 
+                            @if(config('support.recaptcha_enabled') && config('support.recaptcha_site_key'))
+                                <div class="mb-3">
+                                    <div class="g-recaptcha" data-sitekey="{{ config('support.recaptcha_site_key') }}"></div>
+                                    @error('g-recaptcha-response')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                            @endif
+
                             <button type="submit" class="btn btn-primary">Submit Ticket</button>
                         </form>
                     </div>
