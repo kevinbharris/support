@@ -1,4 +1,4 @@
-# Local Install Guide for Bagisto Extension (`kevinbharris/support`)
+# Local Install (without packlyst) Guide for Bagisto Extension (`kevinbharris/support`)
 _Install as a local package (not on Packagist) in Bagisto v2.3.8 / Laravel 11_
 
 ---
@@ -45,7 +45,7 @@ Add `"kevinbharris/support": "*"` to your `require` section:
 
 ```json
 "require": {
-    "kevinbharris/support": "*"
+    "kevinbharris/support": "dev-main"
 }
 ```
 
