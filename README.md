@@ -1,6 +1,6 @@
-# Support - Contact/Ticket Helpdesk for Bagisto v2.3.5
+# Support - Contact/Ticket Helpdesk for Bagisto v2.3.8
 
-Drop‑in contact form and mini helpdesk for Bagisto v2.3.5. Turn inquiries into tickets with subjects, priorities, categories, assignees, internal/public notes, attachments, and SLAs. Support admins triage with filters, canned replies, bulk actions; customers get a token portal and email updates.
+Drop‑in contact form and mini helpdesk for Bagisto v2.3.8. Turn inquiries into tickets with subjects, priorities, categories, assignees, internal/public notes, attachments, and SLAs. Support admins triage with filters, canned replies, bulk actions; customers get a token portal and email updates.
 
 ## Features
 
@@ -291,7 +291,7 @@ This package is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Support
 
-For support, please open an issue on the GitHub repository or contact support@example.com.
+For support, please open an issue on the GitHub repository or contact kevin.b.harris.2015@gmail.com.
 
 ## Contributing
 
