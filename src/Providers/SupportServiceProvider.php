@@ -16,6 +16,10 @@ class SupportServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(__DIR__) . '/Config/support.php', 'support'
         );
+        
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/menu.php', 'menu'
+        );
     }
 
     /**
@@ -33,6 +37,10 @@ class SupportServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 dirname(__DIR__) . '/Config/support.php' => config_path('support.php'),
+            ], 'support-config');
+            
+            $this->publishes([
+                dirname(__DIR__) . '/Config/menu.php' => config_path('menu.php'),
             ], 'support-config');
             
             $this->publishes([
@@ -71,57 +79,11 @@ class SupportServiceProvider extends ServiceProvider
     protected function registerAdminMenu(): void
     {
         Event::listen('admin.menu.build', function () {
-            Menu::add([
-                'key'    => 'support',
-                'label'  => 'Help Desk',
-                'route'  => 'admin.support.tickets.index',
-                'icon'   => 'icon-support',
-                'sort'   => 10,
-                'children' => [
-                    [
-                        'key'   => 'support.canned_responses',
-                        'label' => 'Canned Responses',
-                        'route' => 'admin.support.canned-responses.index',
-                        'icon'  => 'icon-canned-responses',
-                        'sort'  => 1,
-                    ],
-                    [
-                        'key'   => 'support.categories',
-                        'label' => 'Categories',
-                        'route' => 'admin.support.categories.index',
-                        'icon'  => 'icon-categories',
-                        'sort'  => 2,
-                    ],
-                    [
-                        'key'   => 'support.priorities',
-                        'label' => 'Priorities',
-                        'route' => 'admin.support.priorities.index',
-                        'icon'  => 'icon-priorities',
-                        'sort'  => 3,
-                    ],
-                    [
-                        'key'   => 'support.rules',
-                        'label' => 'Rules',
-                        'route' => 'admin.support.rules.index',
-                        'icon'  => 'icon-rules',
-                        'sort'  => 4,
-                    ],
-                    [
-                        'key'   => 'support.statuses',
-                        'label' => 'Statuses',
-                        'route' => 'admin.support.statuses.index',
-                        'icon'  => 'icon-statuses',
-                        'sort'  => 5,
-                    ],
-                    [
-                        'key'   => 'support.tickets',
-                        'label' => 'Tickets',
-                        'route' => 'admin.support.tickets.index',
-                        'icon'  => 'icon-ticket',
-                        'sort'  => 6,
-                    ],
-                ]
-            ]);
+            $menuConfig = config('menu.support');
+            
+            if ($menuConfig) {
+                Menu::add($menuConfig);
+            }
         });
     }
 }
