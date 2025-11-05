@@ -4,6 +4,7 @@ namespace KevinBHarris\Support\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Webkul\Admin\Helpers\Menu;
 
 class SupportServiceProvider extends ServiceProvider
 {
@@ -40,6 +41,7 @@ class SupportServiceProvider extends ServiceProvider
         }
         
         $this->registerEventListeners();
+        $this->registerAdminMenu();
     }
 
     /**
@@ -61,5 +63,44 @@ class SupportServiceProvider extends ServiceProvider
             \KevinBHarris\Support\Events\NoteAdded::class,
             \KevinBHarris\Support\Listeners\SendNoteAddedNotification::class
         );
+    }
+
+    /**
+     * Register admin menu.
+     */
+    protected function registerAdminMenu(): void
+    {
+        Event::listen('admin.menu.build', function () {
+            Menu::add([
+                'key'    => 'support',
+                'label'  => 'Support',
+                'route'  => 'admin.support.tickets.index',
+                'icon'   => 'icon-support',
+                'sort'   => 10,
+                'children' => [
+                    [
+                        'key'   => 'support.tickets',
+                        'label' => 'Tickets',
+                        'route' => 'admin.support.tickets.index',
+                        'icon'  => 'icon-ticket',
+                        'sort'  => 1,
+                    ],
+                    [
+                        'key'   => 'support.new_ticket',
+                        'label' => 'New Ticket',
+                        'route' => 'admin.support.tickets.create',
+                        'icon'  => 'icon-plus',
+                        'sort'  => 2,
+                    ],
+                    [
+                        'key'   => 'support.settings',
+                        'label' => 'Settings',
+                        'route' => 'admin.support.statuses.index',
+                        'icon'  => 'icon-settings',
+                        'sort'  => 3,
+                    ],
+                ]
+            ]);
+        });
     }
 }
