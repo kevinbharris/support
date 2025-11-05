@@ -14,7 +14,7 @@
   font-family: 'support' !important;
   font-style: normal;
   font-weight: normal;
-  speak: none;
+  speak: never;
   display: inline-block;
   vertical-align: middle;
   text-decoration: inherit;
@@ -22,6 +22,8 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-support:before {
