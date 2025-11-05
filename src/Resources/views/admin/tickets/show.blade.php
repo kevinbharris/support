@@ -1,168 +1,187 @@
-@extends('layouts.admin')
+<x-admin::layouts>
+    <x-slot:title>
+        @lang('Ticket #:number', ['number' => $ticket->ticket_number])
+    </x-slot:title>
 
-@section('page_title')
-    Ticket #{{ $ticket->ticket_number }}
-@stop
+    <div class="flex gap-4 justify-between items-center max-sm:flex-wrap">
+        <p class="text-xl text-gray-800 dark:text-white font-bold">
+            @lang('Ticket #:number', ['number' => $ticket->ticket_number])
+        </p>
 
-@section('content')
-    <div class="content full-page">
-        <div class="page-header">
-            <div class="page-title">
-                <h1>Ticket #{{ $ticket->ticket_number }}</h1>
+        <div class="flex gap-x-2.5 items-center">
+            <a href="{{ route('admin.support.tickets.edit', $ticket->id) }}" class="primary-button">
+                @lang('Edit Ticket')
+            </a>
+        </div>
+    </div>
+
+    @if (session('success'))
+        <div class="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 space-y-4">
+            <div class="bg-white dark:bg-gray-900 rounded box-shadow">
+                <div class="p-4 border-b dark:border-gray-800">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ $ticket->subject }}</h3>
+                </div>
+                <div class="p-4 space-y-3">
+                    <div class="text-sm">
+                        <span class="font-medium text-gray-600 dark:text-gray-300">@lang('Customer'):</span>
+                        <span class="text-gray-800 dark:text-white">{{ $ticket->customer_name }} ({{ $ticket->customer_email }})</span>
+                    </div>
+                    <div class="text-sm">
+                        <span class="font-medium text-gray-600 dark:text-gray-300">@lang('Status'):</span>
+                        <span class="px-2 py-1 text-xs rounded" style="background-color: {{ $ticket->status->color }}; color: white;">
+                            {{ $ticket->status->name }}
+                        </span>
+                    </div>
+                    <div class="text-sm">
+                        <span class="font-medium text-gray-600 dark:text-gray-300">@lang('Priority'):</span>
+                        <span class="px-2 py-1 text-xs rounded" style="background-color: {{ $ticket->priority->color }}; color: white;">
+                            {{ $ticket->priority->name }}
+                        </span>
+                    </div>
+                    <div class="text-sm">
+                        <span class="font-medium text-gray-600 dark:text-gray-300">@lang('Category'):</span>
+                        <span class="text-gray-800 dark:text-white">{{ $ticket->category->name }}</span>
+                    </div>
+                    <div class="text-sm">
+                        <span class="font-medium text-gray-600 dark:text-gray-300">@lang('Created'):</span>
+                        <span class="text-gray-800 dark:text-white">{{ $ticket->created_at->format('Y-m-d H:i') }}</span>
+                    </div>
+                    @if($ticket->sla_due_at)
+                        <div class="text-sm">
+                            <span class="font-medium text-gray-600 dark:text-gray-300">@lang('SLA Due'):</span>
+                            <span class="{{ $ticket->isOverdue() ? 'text-red-600' : 'text-green-600' }}">
+                                {{ $ticket->sla_due_at->format('Y-m-d H:i') }}
+                                @if($ticket->isOverdue())
+                                    (@lang('OVERDUE'))
+                                @endif
+                            </span>
+                        </div>
+                    @endif
+                    <div class="pt-3 border-t dark:border-gray-800">
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-2">@lang('Description')</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">{{ $ticket->description }}</p>
+                    </div>
+                </div>
             </div>
-            <div class="page-action">
-                <a href="{{ route('admin.support.tickets.edit', $ticket->id) }}" class="btn btn-primary">
-                    Edit Ticket
-                </a>
+
+            <div class="bg-white dark:bg-gray-900 rounded box-shadow">
+                <div class="p-4 border-b dark:border-gray-800">
+                    <h4 class="text-lg font-semibold text-gray-800 dark:text-white">@lang('Notes & Replies')</h4>
+                </div>
+                <div class="p-4 space-y-3">
+                    @foreach($ticket->notes as $note)
+                        <div class="p-3 rounded {{ $note->is_internal ? 'bg-yellow-50 dark:bg-yellow-900/20' : 'bg-gray-50 dark:bg-gray-800' }}">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <strong class="text-gray-800 dark:text-white">{{ $note->created_by_name }}</strong>
+                                    @if($note->is_internal)
+                                        <span class="ml-2 px-2 py-1 text-xs bg-yellow-500 text-white rounded">@lang('Internal')</span>
+                                    @endif
+                                </div>
+                                <span class="text-xs text-gray-500">{{ $note->created_at->format('Y-m-d H:i') }}</span>
+                            </div>
+                            <div class="text-sm text-gray-600 dark:text-gray-300">
+                                {{ $note->content }}
+                            </div>
+                            @if($note->attachments->count() > 0)
+                                <div class="mt-2 pt-2 border-t dark:border-gray-700">
+                                    <strong class="text-xs text-gray-600 dark:text-gray-300">@lang('Attachments'):</strong>
+                                    @foreach($note->attachments as $attachment)
+                                        <div class="text-xs text-gray-600 dark:text-gray-300">{{ $attachment->name }}</div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+
+                    <div class="pt-4 border-t dark:border-gray-800">
+                        <form action="{{ route('admin.support.tickets.notes.add', $ticket->id) }}" method="POST" enctype="multipart/form-data" class="space-y-3">
+                            @csrf
+                            <div>
+                                <label class="block text-xs text-gray-600 dark:text-gray-300 font-medium">
+                                    @lang('Add Note')
+                                </label>
+                                <textarea name="content" class="flex w-full min-h-[100px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" required></textarea>
+                            </div>
+                            <div>
+                                <label class="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                                    <input type="checkbox" name="is_internal" value="1" class="mr-2">
+                                    @lang('Internal Note (not visible to customer)')
+                                </label>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-600 dark:text-gray-300 font-medium">
+                                    @lang('Attachments')
+                                </label>
+                                <input type="file" name="attachments[]" class="flex w-full py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900" multiple>
+                            </div>
+                            <button type="submit" class="primary-button">
+                                @lang('Add Note')
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="page-content">
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+        <div class="space-y-4">
+            <div class="bg-white dark:bg-gray-900 rounded box-shadow">
+                <div class="p-4 border-b dark:border-gray-800">
+                    <h4 class="text-lg font-semibold text-gray-800 dark:text-white">@lang('Watchers')</h4>
                 </div>
-            @endif
-
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h3>{{ $ticket->subject }}</h3>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Customer:</strong> {{ $ticket->customer_name }} ({{ $ticket->customer_email }})</p>
-                            <p><strong>Status:</strong> 
-                                <span class="badge" style="background-color: {{ $ticket->status->color }}">
-                                    {{ $ticket->status->name }}
-                                </span>
-                            </p>
-                            <p><strong>Priority:</strong> 
-                                <span class="badge" style="background-color: {{ $ticket->priority->color }}">
-                                    {{ $ticket->priority->name }}
-                                </span>
-                            </p>
-                            <p><strong>Category:</strong> {{ $ticket->category->name }}</p>
-                            <p><strong>Created:</strong> {{ $ticket->created_at->format('Y-m-d H:i') }}</p>
-                            @if($ticket->sla_due_at)
-                                <p><strong>SLA Due:</strong> 
-                                    <span class="{{ $ticket->isOverdue() ? 'text-danger' : 'text-success' }}">
-                                        {{ $ticket->sla_due_at->format('Y-m-d H:i') }}
-                                        @if($ticket->isOverdue())
-                                            (OVERDUE)
-                                        @endif
-                                    </span>
-                                </p>
-                            @endif
-                            <hr>
-                            <h4>Description</h4>
-                            <p>{{ $ticket->description }}</p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Notes & Replies</h4>
-                        </div>
-                        <div class="card-body">
-                            @foreach($ticket->notes as $note)
-                                <div class="note mb-3 p-3 {{ $note->is_internal ? 'bg-warning' : 'bg-light' }}">
-                                    <div class="note-header mb-2">
-                                        <strong>{{ $note->created_by_name }}</strong>
-                                        @if($note->is_internal)
-                                            <span class="badge badge-warning">Internal</span>
-                                        @endif
-                                        <span class="text-muted float-right">{{ $note->created_at->format('Y-m-d H:i') }}</span>
-                                    </div>
-                                    <div class="note-content">
-                                        {{ $note->content }}
-                                    </div>
-                                    @if($note->attachments->count() > 0)
-                                        <div class="attachments mt-2">
-                                            <strong>Attachments:</strong>
-                                            @foreach($note->attachments as $attachment)
-                                                <div>{{ $attachment->name }}</div>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                </div>
-                            @endforeach
-
-                            <hr>
-
-                            <form action="{{ route('admin.support.tickets.notes.add', $ticket->id) }}" method="POST" enctype="multipart/form-data">
+                <div class="p-4 space-y-2">
+                    @foreach($ticket->watchers as $watcher)
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-800 dark:text-white">{{ $watcher->name ?? $watcher->email }}</span>
+                            <form action="{{ route('admin.support.tickets.watchers.remove', [$ticket->id, $watcher->id]) }}" method="POST">
                                 @csrf
-                                <div class="form-group">
-                                    <label>Add Note</label>
-                                    <textarea name="content" class="form-control" rows="4" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        <input type="checkbox" name="is_internal" value="1">
-                                        Internal Note (not visible to customer)
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label>Attachments</label>
-                                    <input type="file" name="attachments[]" class="form-control" multiple>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add Note</button>
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline text-xs">@lang('Remove')</button>
                             </form>
                         </div>
+                    @endforeach
+
+                    <div class="pt-3 border-t dark:border-gray-800">
+                        <form action="{{ route('admin.support.tickets.watchers.add', $ticket->id) }}" method="POST" class="space-y-2">
+                            @csrf
+                            <div>
+                                <input type="email" name="email" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" placeholder="@lang('Email')" required>
+                            </div>
+                            <div>
+                                <input type="text" name="name" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" placeholder="@lang('Name (optional)')">
+                            </div>
+                            <button type="submit" class="secondary-button w-full">
+                                @lang('Add Watcher')
+                            </button>
+                        </form>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-4">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h4>Watchers</h4>
+            <div class="bg-white dark:bg-gray-900 rounded box-shadow">
+                <div class="p-4 border-b dark:border-gray-800">
+                    <h4 class="text-lg font-semibold text-gray-800 dark:text-white">@lang('Activity Log')</h4>
+                </div>
+                <div class="p-4 space-y-2">
+                    @foreach($ticket->activityLogs as $log)
+                        <div class="text-sm">
+                            <div class="text-xs text-gray-500">{{ $log->created_at->format('Y-m-d H:i') }}</div>
+                            <div class="text-gray-800 dark:text-white">
+                                <strong>{{ $log->action }}</strong>: {{ $log->description }}
+                                @if($log->user_name)
+                                    <span class="text-gray-600 dark:text-gray-300">by {{ $log->user_name }}</span>
+                                @endif
+                            </div>
                         </div>
-                        <div class="card-body">
-                            @foreach($ticket->watchers as $watcher)
-                                <div class="watcher mb-2">
-                                    {{ $watcher->name ?? $watcher->email }}
-                                    <form action="{{ route('admin.support.tickets.watchers.remove', [$ticket->id, $watcher->id]) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-                                    </form>
-                                </div>
-                            @endforeach
-
-                            <hr>
-
-                            <form action="{{ route('admin.support.tickets.watchers.add', $ticket->id) }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <input type="email" name="email" class="form-control" placeholder="Email" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="name" class="form-control" placeholder="Name (optional)">
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-primary">Add Watcher</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Activity Log</h4>
-                        </div>
-                        <div class="card-body">
-                            @foreach($ticket->activityLogs as $log)
-                                <div class="activity-log mb-2">
-                                    <small class="text-muted">{{ $log->created_at->format('Y-m-d H:i') }}</small>
-                                    <br>
-                                    <strong>{{ $log->action }}</strong>: {{ $log->description }}
-                                    @if($log->user_name)
-                                        by {{ $log->user_name }}
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
-@stop
+</x-admin::layouts>
