@@ -18,7 +18,8 @@ class SupportServiceProvider extends ServiceProvider
         );
         
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/menu.php', 'menu'
+            dirname(__DIR__).'/Config/menu.php',
+            'menu.admin'
         );
     }
 
@@ -71,19 +72,5 @@ class SupportServiceProvider extends ServiceProvider
             \KevinBHarris\Support\Events\NoteAdded::class,
             \KevinBHarris\Support\Listeners\SendNoteAddedNotification::class
         );
-    }
-
-    /**
-     * Register admin menu.
-     */
-    protected function registerAdminMenu(): void
-    {
-        Event::listen('admin.menu.build', function () {
-            $menuConfig = config('menu.support');
-            
-            if ($menuConfig) {
-                Menu::add($menuConfig);
-            }
-        });
     }
 }
