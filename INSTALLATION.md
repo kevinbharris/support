@@ -7,7 +7,7 @@ This guide will walk you through installing and configuring the kevinbharris/sup
 ## Prerequisites
 
 - **PHP 8.1 or higher**
-- **Laravel 10.x**
+- **Laravel 11.x**
 - **Bagisto 2.3.8**
 - **MySQL 5.7+ or PostgreSQL**
 - **Composer (v2 recommended)**
@@ -174,22 +174,7 @@ Visit:
 
 ---
 
-### 9. Add Admin Navigation (optional)
-
-Add links to your Bagisto admin sidebar (menu config or Blade):
-
-```blade
-<li>
-    <a href="{{ route('admin.support.tickets.index') }}">
-        <i class="icon-support"></i>
-        <span>Support Tickets</span>
-    </a>
-</li>
-```
-
----
-
-### 10. Test the Customer Portal
+### 9. Test the Customer Portal
 
 Accessible at:
 
