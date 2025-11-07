@@ -5,6 +5,7 @@ namespace KevinBHarris\Support\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Helpers\Menu;
+use KevinBHarris\Support\Providers\AuthServiceProvider;
 
 class SupportServiceProvider extends ServiceProvider
 {
