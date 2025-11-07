@@ -25,12 +25,19 @@ class SupportServiceProvider extends ServiceProvider
         
         // Merge support permissions into Bagisto's ACL config
         // This ensures our permissions appear in Settings > Roles
-        config([
-            'acl' => array_merge(
-                config('acl', []),
-                require dirname(__DIR__) . '/Config/acl.php'
-            )
-        ]);
+        // The ACL config is now a flat array, so we merge it directly
+        $supportPermissions = require dirname(__DIR__) . '/Config/acl.php';
+        $existingAcl = config('acl', []);
+        
+        // If the existing ACL has a 'permissions' key (Bagisto format),
+        // merge our permissions into that array
+        if (isset($existingAcl['permissions']) && is_array($existingAcl['permissions'])) {
+            $existingAcl['permissions'] = array_merge($existingAcl['permissions'], $supportPermissions);
+            config(['acl' => $existingAcl]);
+        } else {
+            // Otherwise, merge as a flat array
+            config(['acl' => array_merge($existingAcl, $supportPermissions)]);
+        }
         
         // Register the AuthServiceProvider
         $this->app->register(AuthServiceProvider::class);

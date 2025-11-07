@@ -142,7 +142,11 @@ class SupportPermissionsSeeder extends Seeder
      */
     protected function getAllSupportPermissions(): array
     {
-        $permissions = config('acl.permissions', []);
+        // Support both flat array format and nested 'permissions' key format
+        $aclConfig = config('acl', []);
+        $permissions = isset($aclConfig['permissions']) && is_array($aclConfig['permissions']) 
+            ? $aclConfig['permissions'] 
+            : $aclConfig;
         
         return collect($permissions)
             ->filter(fn($permission) => isset($permission['key']))

@@ -75,10 +75,10 @@ This will create `config/support.php` and `config/menu.php`.
 
 ### Permission Configuration File
 
-The ACL configuration is located at `src/Config/acl.php` and is automatically loaded. It follows Bagisto's ACL structure:
+The ACL configuration is located at `src/Config/acl.php` and is automatically loaded. It returns a flat array of permissions:
 
 ```php
-'permissions' => [
+return [
     [
         'key' => 'support.tickets',
         'name' => 'support::acl.tickets.title',
@@ -92,7 +92,7 @@ The ACL configuration is located at `src/Config/acl.php` and is automatically lo
         'sort' => 1,
     ],
     // ... more permissions
-]
+];
 ```
 
 ## Usage in Bagisto Admin
