@@ -69,9 +69,12 @@ class AuthServiceProvider extends ServiceProvider
         $permissions = config('acl.permissions', []);
 
         foreach ($permissions as $permission) {
-            Gate::define($permission['key'], function ($user) use ($permission) {
-                return $user->hasPermission($permission['key']);
-            });
+            // Only register gates for support permissions
+            if (isset($permission['key']) && str_starts_with($permission['key'], 'support.')) {
+                Gate::define($permission['key'], function ($user) use ($permission) {
+                    return $user->hasPermission($permission['key']);
+                });
+            }
         }
     }
 }

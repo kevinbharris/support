@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Helpers\Menu;
 use KevinBHarris\Support\Providers\AuthServiceProvider;
+use KevinBHarris\Support\Http\Middleware\SupportPermission;
 
 class SupportServiceProvider extends ServiceProvider
 {
@@ -51,7 +52,7 @@ class SupportServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(dirname(__DIR__) . '/Resources/lang', 'support');
         
         // Register middleware
-        $this->app['router']->aliasMiddleware('support_permission', \KevinBHarris\Support\Http\Middleware\SupportPermission::class);
+        $this->app['router']->aliasMiddleware('support_permission', SupportPermission::class);
         
         if ($this->app->runningInConsole()) {
             $this->publishes([
