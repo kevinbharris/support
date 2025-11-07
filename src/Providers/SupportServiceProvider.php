@@ -22,9 +22,14 @@ class SupportServiceProvider extends ServiceProvider
             'menu.admin'
         );
         
-        $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/acl.php', 'acl'
-        );
+        // Merge support permissions into Bagisto's ACL config
+        // This ensures our permissions appear in Settings > Roles
+        config([
+            'acl' => array_merge(
+                config('acl', []),
+                require dirname(__DIR__) . '/Config/acl.php'
+            )
+        ]);
         
         // Register the AuthServiceProvider
         $this->app->register(AuthServiceProvider::class);
@@ -56,9 +61,8 @@ class SupportServiceProvider extends ServiceProvider
                 dirname(__DIR__) . '/Config/menu.php' => config_path('menu.php'),
             ], 'support-config');
             
-            $this->publishes([
-                dirname(__DIR__) . '/Config/acl.php' => config_path('acl.php'),
-            ], 'support-config');
+            // Note: ACL config is merged at runtime, not published
+            // This prevents overwriting Bagisto's core ACL configuration
             
             $this->publishes([
                 dirname(__DIR__) . '/Resources/views' => resource_path('views/vendor/support'),

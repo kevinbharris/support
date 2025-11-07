@@ -63,17 +63,19 @@ Permissions are organized hierarchically by resource type:
 
 ### Publishing Configuration
 
-To customize the ACL configuration, publish it to your application:
+To customize the main support configuration, publish it to your application:
 
 ```bash
 php artisan vendor:publish --tag=support-config
 ```
 
-This will create `config/acl.php` with all permission definitions.
+This will create `config/support.php` and `config/menu.php`.
+
+**Note**: The ACL configuration (`src/Config/acl.php`) is automatically merged with Bagisto's ACL at runtime and does NOT need to be published. This prevents accidentally overwriting Bagisto's core ACL configuration.
 
 ### Permission Configuration File
 
-The ACL configuration is located at `src/Config/acl.php` and follows Bagisto's ACL structure:
+The ACL configuration is located at `src/Config/acl.php` and is automatically loaded. It follows Bagisto's ACL structure:
 
 ```php
 'permissions' => [
@@ -338,13 +340,13 @@ If menu items don't appear:
 If you're upgrading from a version without ACL support:
 
 1. Clear cache: `php artisan config:clear` and `php artisan cache:clear`
-2. The ACL configuration is automatically merged - no need to publish unless customizing
+2. The ACL configuration is automatically merged at runtime - no publishing needed
 3. Go to **Bagisto Admin > Settings > Roles**
 4. Edit existing roles to include Support permissions as needed
 5. Assign appropriate roles to existing users
 6. Test that all users can access the features they need
 
-**Note**: All permissions are automatically available in the admin panel. No manual seeding or database operations required!
+**Note**: All permissions are automatically available in the admin panel. The ACL config is merged with Bagisto's configuration, not published separately.
 
 ## Additional Resources
 
