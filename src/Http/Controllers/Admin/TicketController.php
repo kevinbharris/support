@@ -20,6 +20,9 @@ class TicketController extends Controller
 {
     public function index(Request $request)
     {
+        // Optional: Additional authorization check (already protected by middleware)
+        // $this->authorize('viewAny', Ticket::class);
+        
         $query = Ticket::with(['status', 'priority', 'category'])
             ->orderBy('created_at', 'desc');
 
@@ -63,6 +66,9 @@ class TicketController extends Controller
 
     public function store(Request $request)
     {
+        // Optional: Additional authorization check (already protected by middleware)
+        // $this->authorize('create', Ticket::class);
+        
         $validated = $request->validate([
             'subject' => 'required|string|max:255',
             'description' => 'required|string',
