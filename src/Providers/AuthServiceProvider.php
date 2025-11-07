@@ -72,7 +72,8 @@ class AuthServiceProvider extends ServiceProvider
         $permissions = config('acl', []);
 
         foreach ($permissions as $permission) {
-            // Each permission must have a 'key' field
+            // Each permission must have a 'key' field to be registered as a gate
+            // Permissions without a 'key' are silently skipped
             if (isset($permission['key'])) {
                 Gate::define($permission['key'], function ($user) use ($permission) {
                     return $user->hasPermission($permission['key']);

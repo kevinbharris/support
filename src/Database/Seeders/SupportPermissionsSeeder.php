@@ -137,6 +137,12 @@ class SupportPermissionsSeeder extends Seeder
 
     /**
      * Get all support permissions from config.
+     * 
+     * Expects config('acl') to return a flat array where each permission contains:
+     * - 'key': The unique permission identifier (e.g., 'support.tickets.view')
+     * - 'name': The translation key for the permission name
+     * - 'route': The associated route (can be empty string)
+     * - 'sort': The sort order for display
      *
      * @return array
      */
