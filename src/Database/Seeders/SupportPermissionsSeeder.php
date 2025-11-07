@@ -6,12 +6,21 @@ use Illuminate\Database\Seeder;
 use Webkul\User\Models\Role;
 
 /**
- * Support Permissions Seeder
+ * Support Permissions Seeder (OPTIONAL)
  * 
- * This seeder creates default roles with support permissions.
- * You can customize this to fit your organization's needs.
+ * This seeder is provided as a REFERENCE ONLY for programmatic role creation.
  * 
- * Usage:
+ * Bagisto's admin panel (Settings > Roles) provides full UI-based permission
+ * management, so this seeder is NOT required for normal usage.
+ * 
+ * Use this seeder only if you need to:
+ * - Automate role creation in CI/CD pipelines
+ * - Set up demo/test environments programmatically
+ * - Provide default roles for custom installations
+ * 
+ * For most users, simply configure roles in the Bagisto admin panel.
+ * 
+ * Usage (optional):
  * php artisan db:seed --class="KevinBHarris\Support\Database\Seeders\SupportPermissionsSeeder"
  */
 class SupportPermissionsSeeder extends Seeder

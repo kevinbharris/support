@@ -95,34 +95,62 @@ The ACL configuration is located at `src/Config/acl.php` and follows Bagisto's A
 
 ## Usage in Bagisto Admin
 
-### Assigning Permissions to Roles
+### Configuring Permissions in Admin Panel
+
+All support permissions are automatically available in Bagisto's admin panel once the package is installed. No seeding required!
 
 1. Navigate to **Settings > Roles** in the Bagisto admin panel
 2. Create a new role or edit an existing one
-3. In the permissions section, you'll find all Support permissions grouped by resource type
-4. Check the permissions you want to grant to this role
-5. Save the role
+3. In the permissions section, expand the **Support** or **Help Desk** section
+4. You'll find all Support permissions grouped by resource type:
+   - Tickets (view, create, update, delete, assign, notes, watchers)
+   - Statuses (view, create, update, delete)
+   - Priorities (view, create, update, delete)
+   - Categories (view, create, update, delete)
+   - Canned Responses (view, create, update, delete)
+   - Rules (view, create, update, delete)
+   - Notes (view, create, delete)
+   - Attachments (view, create, delete)
+5. Check the permissions you want to grant to this role
+6. Save the role
+7. Assign the role to users under **Settings > Users**
 
 ### Creating Custom Roles
 
-You can create specialized roles for different support team members:
+You can create specialized roles for different support team members directly in the admin panel:
 
 **Example: Support Agent Role**
-- `support.tickets.view` ✓
-- `support.tickets.update` ✓
-- `support.tickets.notes` ✓
-- `support.tickets.assign` ✗
-- `support.tickets.delete` ✗
+1. Go to Settings > Roles > Create
+2. Name: "Support Agent"
+3. Select these permissions:
+   - Support > Tickets > View ✓
+   - Support > Tickets > Create ✓
+   - Support > Tickets > Update ✓
+   - Support > Tickets > Notes ✓
+   - Support > Statuses > View ✓
+   - Support > Priorities > View ✓
+   - Support > Categories > View ✓
+4. Save the role
 
 **Example: Support Manager Role**
-- All ticket permissions ✓
-- All status/priority/category permissions ✓
-- `support.rules` permissions ✓
+1. Go to Settings > Roles > Create
+2. Name: "Support Manager"
+3. Select all Support permissions ✓
+4. Save the role
 
 **Example: Support Viewer Role**
-- `support.tickets.view` ✓
-- `support.notes.view` ✓
-- All other permissions ✗
+1. Go to Settings > Roles > Create
+2. Name: "Support Viewer"
+3. Select only "View" permissions:
+   - Support > Tickets > View ✓
+   - Support > Statuses > View ✓
+   - Support > Priorities > View ✓
+   - Support > Categories > View ✓
+   - Support > Canned Responses > View ✓
+   - Support > Rules > View ✓
+   - Support > Notes > View ✓
+   - Support > Attachments > View ✓
+4. Save the role
 
 ## Policy Classes
 
@@ -205,49 +233,22 @@ Route::post('tickets', [TicketController::class, 'store'])
     ->middleware('support_permission:support.tickets.create');
 ```
 
-## Seeding Permissions
+## Automatic Permission Registration
 
-To make it easier for developers to seed permissions into the ACL system, here's an example seeder:
+The Support module automatically registers all permissions with Bagisto's ACL system. You don't need to run any seeders or manual setup steps. Simply:
 
-```php
-<?php
+1. Install the package
+2. Go to Bagisto Admin > Settings > Roles
+3. Create or edit roles and assign Support permissions
+4. Assign roles to users
 
-namespace Database\Seeders;
+All Support permissions will appear grouped in the permissions section when editing a role.
 
-use Illuminate\Database\Seeder;
-use Webkul\User\Models\Role;
+## Optional: Programmatic Role Creation
 
-class SupportPermissionsSeeder extends Seeder
-{
-    public function run()
-    {
-        // Get or create a Support Admin role
-        $role = Role::firstOrCreate(
-            ['name' => 'Support Admin'],
-            [
-                'description' => 'Full access to support module',
-                'permission_type' => 'custom',
-            ]
-        );
+If you need to programmatically create roles with support permissions (e.g., during initial setup), you can use the provided seeder as a reference. However, **this is entirely optional** since Bagisto's admin panel provides full UI-based role and permission management.
 
-        // Define all support permissions
-        $permissions = config('acl.permissions');
-        
-        // Extract just the permission keys
-        $permissionKeys = collect($permissions)->pluck('key')->toArray();
-        
-        // Assign all support permissions to the role
-        $role->permissions = array_merge($role->permissions ?? [], $permissionKeys);
-        $role->save();
-    }
-}
-```
-
-Run the seeder:
-
-```bash
-php artisan db:seed --class=SupportPermissionsSeeder
-```
+See `src/Database/Seeders/SupportPermissionsSeeder.php` for an example of how to create roles programmatically if needed for automated deployments.
 
 ## Extending the Policy Template
 
@@ -336,10 +337,14 @@ If menu items don't appear:
 
 If you're upgrading from a version without ACL support:
 
-1. Publish the new configuration: `php artisan vendor:publish --tag=support-config`
-2. Create or update roles in Bagisto admin with support permissions
-3. Assign appropriate roles to existing users
-4. Test that all users can access the features they need
+1. Clear cache: `php artisan config:clear` and `php artisan cache:clear`
+2. The ACL configuration is automatically merged - no need to publish unless customizing
+3. Go to **Bagisto Admin > Settings > Roles**
+4. Edit existing roles to include Support permissions as needed
+5. Assign appropriate roles to existing users
+6. Test that all users can access the features they need
+
+**Note**: All permissions are automatically available in the admin panel. No manual seeding or database operations required!
 
 ## Additional Resources
 
