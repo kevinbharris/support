@@ -24,19 +24,19 @@ class TicketController extends Controller
             ->orderBy('created_at', 'desc');
 
         // Filters
-        if ($request->has('status')) {
+        if ($request->filled('status')) {
             $query->where('status_id', $request->status);
         }
-        if ($request->has('priority')) {
+        if ($request->filled('priority')) {
             $query->where('priority_id', $request->priority);
         }
-        if ($request->has('category')) {
+        if ($request->filled('category')) {
             $query->where('category_id', $request->category);
         }
-        if ($request->has('assigned_to')) {
+        if ($request->filled('assigned_to')) {
             $query->where('assigned_to', $request->assigned_to);
         }
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('ticket_number', 'like', '%' . $request->search . '%')
                   ->orWhere('subject', 'like', '%' . $request->search . '%')
