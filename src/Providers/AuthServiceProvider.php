@@ -61,18 +61,19 @@ class AuthServiceProvider extends ServiceProvider
      * 
      * This allows checking permissions using Gate::allows('support.tickets.view')
      * in addition to policy methods.
+     * 
+     * Reads from config('acl') which is expected to be a flat array of permission arrays.
      *
      * @return void
      */
     protected function registerGates(): void
     {
-        // Support both flat array format and nested 'permissions' key format
-        $aclConfig = config('acl', []);
-        $permissions = isset($aclConfig['permissions']) && is_array($aclConfig['permissions']) 
-            ? $aclConfig['permissions'] 
-            : $aclConfig;
+        // Get the flat array of permissions from config('acl')
+        $permissions = config('acl', []);
 
         foreach ($permissions as $permission) {
+            // Each permission must have a 'key' field to be registered as a gate
+            // Permissions without a 'key' are silently skipped
             if (isset($permission['key'])) {
                 Gate::define($permission['key'], function ($user) use ($permission) {
                     return $user->hasPermission($permission['key']);
