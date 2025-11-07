@@ -208,7 +208,7 @@ class TicketController extends Controller
         ActivityLog::create([
             'ticket_id' => $ticket->id,
             'action' => 'note_added',
-            'description' => $validated['is_internal'] ? 'Internal note added' : 'Public note added',
+            'description' => ($validated['is_internal'] ?? false) ? 'Internal note added' : 'Public note added',
             'user_id' => auth()->id(),
             'user_name' => auth()->user()->name ?? 'System',
         ]);
