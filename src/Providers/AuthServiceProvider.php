@@ -66,7 +66,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerGates(): void
     {
-        $permissions = config('acl.permissions', []);
+        // Support both flat array format and nested 'permissions' key format
+        $aclConfig = config('acl', []);
+        $permissions = isset($aclConfig['permissions']) && is_array($aclConfig['permissions']) 
+            ? $aclConfig['permissions'] 
+            : $aclConfig;
 
         foreach ($permissions as $permission) {
             if (isset($permission['key'])) {
