@@ -42,25 +42,25 @@ return [
     [
         'key' => 'support.tickets.delete',
         'name' => 'support::acl.tickets.delete',
-        'route' => null,
+        'route' => '',
         'sort' => 4,
     ],
     [
         'key' => 'support.tickets.assign',
         'name' => 'support::acl.tickets.assign',
-        'route' => null,
+        'route' => '',
         'sort' => 5,
     ],
     [
         'key' => 'support.tickets.notes',
         'name' => 'support::acl.tickets.notes',
-        'route' => null,
+        'route' => '',
         'sort' => 6,
     ],
     [
         'key' => 'support.tickets.watchers',
         'name' => 'support::acl.tickets.watchers',
-        'route' => null,
+        'route' => '',
         'sort' => 7,
     ],
 
@@ -92,7 +92,7 @@ return [
     [
         'key' => 'support.statuses.delete',
         'name' => 'support::acl.statuses.delete',
-        'route' => null,
+        'route' => '',
         'sort' => 4,
     ],
 
@@ -124,7 +124,7 @@ return [
     [
         'key' => 'support.priorities.delete',
         'name' => 'support::acl.priorities.delete',
-        'route' => null,
+        'route' => '',
         'sort' => 4,
     ],
 
@@ -156,7 +156,7 @@ return [
     [
         'key' => 'support.categories.delete',
         'name' => 'support::acl.categories.delete',
-        'route' => null,
+        'route' => '',
         'sort' => 4,
     ],
 
@@ -188,7 +188,7 @@ return [
     [
         'key' => 'support.canned-responses.delete',
         'name' => 'support::acl.canned-responses.delete',
-        'route' => null,
+        'route' => '',
         'sort' => 4,
     ],
 
@@ -220,7 +220,7 @@ return [
     [
         'key' => 'support.rules.delete',
         'name' => 'support::acl.rules.delete',
-        'route' => null,
+        'route' => '',
         'sort' => 4,
     ],
 
@@ -228,25 +228,25 @@ return [
     [
         'key' => 'support.notes',
         'name' => 'support::acl.notes.title',
-        'route' => null,
+        'route' => '',
         'sort' => 7,
     ],
     [
         'key' => 'support.notes.view',
         'name' => 'support::acl.notes.view',
-        'route' => null,
+        'route' => '',
         'sort' => 1,
     ],
     [
         'key' => 'support.notes.create',
         'name' => 'support::acl.notes.create',
-        'route' => null,
+        'route' => '',
         'sort' => 2,
     ],
     [
         'key' => 'support.notes.delete',
         'name' => 'support::acl.notes.delete',
-        'route' => null,
+        'route' => '',
         'sort' => 3,
     ],
 
@@ -254,25 +254,25 @@ return [
     [
         'key' => 'support.attachments',
         'name' => 'support::acl.attachments.title',
-        'route' => null,
+        'route' => '',
         'sort' => 8,
     ],
     [
         'key' => 'support.attachments.view',
         'name' => 'support::acl.attachments.view',
-        'route' => null,
+        'route' => '',
         'sort' => 1,
     ],
     [
         'key' => 'support.attachments.create',
         'name' => 'support::acl.attachments.create',
-        'route' => null,
+        'route' => '',
         'sort' => 2,
     ],
     [
         'key' => 'support.attachments.delete',
         'name' => 'support::acl.attachments.delete',
-        'route' => null,
+        'route' => '',
         'sort' => 3,
     ],
 ];
