@@ -69,9 +69,11 @@ class AuthServiceProvider extends ServiceProvider
         $permissions = config('acl.permissions', []);
 
         foreach ($permissions as $permission) {
-            Gate::define($permission['key'], function ($user) use ($permission) {
-                return $user->hasPermission($permission['key']);
-            });
+            if (isset($permission['key'])) {
+                Gate::define($permission['key'], function ($user) use ($permission) {
+                    return $user->hasPermission($permission['key']);
+                });
+            }
         }
     }
 }

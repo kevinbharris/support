@@ -145,6 +145,7 @@ class SupportPermissionsSeeder extends Seeder
         $permissions = config('acl.permissions', []);
         
         return collect($permissions)
+            ->filter(fn($permission) => isset($permission['key']))
             ->pluck('key')
             ->filter(fn($key) => str_starts_with($key, 'support.'))
             ->values()
