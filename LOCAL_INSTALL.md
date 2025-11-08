@@ -115,6 +115,7 @@ Use the admin panel or seed with tinker:
 use KevinBHarris\Support\Models\Status;
 use KevinBHarris\Support\Models\Priority;
 use KevinBHarris\Support\Models\Category;
+use KevinBHarris\Support\Models\Rule;
 
 Status::create(['name' => 'New', 'code' => 'new', 'color' => '#3b82f6', 'sort_order' => 1, 'is_active' => true]);
 Status::create(['name' => 'Open', 'code' => 'open', 'color' => '#f59e0b', 'sort_order' => 2, 'is_active' => true]);
@@ -150,6 +151,7 @@ Category::create(['name' => 'Service Scheduling', 'code' => 'service-scheduling'
 Category::create(['name' => 'Contract & Terms', 'code' => 'contract-terms', 'slug' => 'contract-terms', 'sort_order' => 23, 'is_active' => true]);
 Category::create(['name' => 'Feedback & Suggestions', 'code' => 'feedback-suggestions', 'slug' => 'feedback-suggestions', 'sort_order' => 24, 'is_active' => true]);
 Category::create(['name' => 'Other', 'code' => 'other', 'slug' => 'other', 'sort_order' => 25, 'is_active' => true]);
+Rule::create(['name' => 'Auto-close resolved tickets', 'description' => 'Automatically close tickets that have been resolved for 72 hours', 'from_status_id' => 4, 'to_status_id' => 5, 'after_hours' => 72, 'is_enabled' => true ]);
 ```
 
 
