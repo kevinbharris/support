@@ -118,8 +118,10 @@ use KevinBHarris\Support\Models\Category;
 
 Status::create(['name' => 'New', 'code' => 'new', 'color' => '#3b82f6', 'sort_order' => 1, 'is_active' => true]);
 Status::create(['name' => 'Open', 'code' => 'open', 'color' => '#f59e0b', 'sort_order' => 2, 'is_active' => true]);
-Status::create(['name' => 'Resolved', 'code' => 'resolved', 'color' => '#10b981', 'sort_order' => 3, 'is_active' => true]);
-Status::create(['name' => 'Closed', 'code' => 'closed', 'color' => '#6b7280', 'sort_order' => 4, 'is_active' => true]);
+Status::create(['name' => 'On-Hold', 'code' => 'on_hold', 'color' => '#d97706', 'sort_order' => 3, 'is_active' => true]);
+Status::create(['name' => 'In-Progress', 'code' => 'in_progress', 'color' => '#6366f1', 'sort_order' => 4, 'is_active' => true]);
+Status::create(['name' => 'Resolved', 'code' => 'resolved', 'color' => '#10b981', 'sort_order' => 5, 'is_active' => true]);
+Status::create(['name' => 'Closed', 'code' => 'closed', 'color' => '#6b7280', 'sort_order' => 6, 'is_active' => true]);
 Priority::create(['name' => 'Low', 'code' => 'low', 'color' => '#6b7280', 'sort_order' => 1, 'is_active' => true]);
 Priority::create(['name' => 'Medium', 'code' => 'medium', 'color' => '#f59e0b', 'sort_order' => 2, 'is_active' => true]);
 Priority::create(['name' => 'High', 'code' => 'high', 'color' => '#ef4444', 'sort_order' => 3, 'is_active' => true]);
