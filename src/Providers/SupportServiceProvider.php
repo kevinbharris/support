@@ -5,7 +5,6 @@ namespace KevinBHarris\Support\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Helpers\Menu;
-use KevinBHarris\Support\Providers\AuthServiceProvider;
 
 class SupportServiceProvider extends ServiceProvider
 {
@@ -22,15 +21,6 @@ class SupportServiceProvider extends ServiceProvider
             dirname(__DIR__).'/Config/menu.php',
             'menu.admin'
         );
-        
-        // Merge support permissions into Bagisto's ACL config
-        // This follows the Webkul/Admin package integration style
-        $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/acl.php', 'acl'
-        );
-        
-        // Register the AuthServiceProvider
-        $this->app->register(AuthServiceProvider::class);
     }
 
     /**
@@ -47,9 +37,6 @@ class SupportServiceProvider extends ServiceProvider
         
         $this->loadTranslationsFrom(dirname(__DIR__) . '/Resources/lang', 'support');
         
-        // Register middleware
-        $this->app['router']->aliasMiddleware('support_permission', \KevinBHarris\Support\Http\Middleware\SupportPermission::class);
-        
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 dirname(__DIR__) . '/Config/support.php' => config_path('support.php'),
@@ -58,9 +45,6 @@ class SupportServiceProvider extends ServiceProvider
             $this->publishes([
                 dirname(__DIR__) . '/Config/menu.php' => config_path('menu.php'),
             ], 'support-config');
-            
-            // Note: ACL config is merged at runtime, not published
-            // This prevents overwriting Bagisto's core ACL configuration
             
             $this->publishes([
                 dirname(__DIR__) . '/Resources/views' => resource_path('views/vendor/support'),
