@@ -5,18 +5,20 @@ namespace KevinBHarris\Support\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use KevinBHarris\Support\Models\Rule;
+use KevinBHarris\Support\Models\Status;
 
 class RuleController extends Controller
 {
     public function index()
     {
-        $rules = Rule::orderBy('sort_order')->paginate(20);
+        $rules = Rule::with(['fromStatus', 'toStatus'])->orderBy('created_at', 'desc')->paginate(20);
         return view('support::admin.rules.index', compact('rules'));
     }
 
     public function create()
     {
-        return view('support::admin.rules.create');
+        $statuses = Status::where('is_active', true)->orderBy('sort_order')->get();
+        return view('support::admin.rules.create', compact('statuses'));
     }
 
     public function store(Request $request)
@@ -24,22 +26,25 @@ class RuleController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'conditions' => 'required|array',
-            'actions' => 'required|array',
-            'sort_order' => 'integer',
-            'is_active' => 'boolean',
+            'from_status_id' => 'required|exists:support_statuses,id',
+            'to_status_id' => 'required|exists:support_statuses,id|different:from_status_id',
+            'after_hours' => 'required|integer|min:1',
+            'is_enabled' => 'boolean',
         ]);
+
+        $validated['is_enabled'] = $request->has('is_enabled');
 
         Rule::create($validated);
 
         return redirect()->route('admin.support.rules.index')
-            ->with('success', 'Rule created successfully.');
+            ->with('success', 'Automation rule created successfully.');
     }
 
     public function edit($id)
     {
         $rule = Rule::findOrFail($id);
-        return view('support::admin.rules.edit', compact('rule'));
+        $statuses = Status::where('is_active', true)->orderBy('sort_order')->get();
+        return view('support::admin.rules.edit', compact('rule', 'statuses'));
     }
 
     public function update(Request $request, $id)
@@ -49,16 +54,18 @@ class RuleController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'conditions' => 'required|array',
-            'actions' => 'required|array',
-            'sort_order' => 'integer',
-            'is_active' => 'boolean',
+            'from_status_id' => 'required|exists:support_statuses,id',
+            'to_status_id' => 'required|exists:support_statuses,id|different:from_status_id',
+            'after_hours' => 'required|integer|min:1',
+            'is_enabled' => 'boolean',
         ]);
+
+        $validated['is_enabled'] = $request->has('is_enabled');
 
         $rule->update($validated);
 
         return redirect()->route('admin.support.rules.index')
-            ->with('success', 'Rule updated successfully.');
+            ->with('success', 'Automation rule updated successfully.');
     }
 
     public function destroy($id)
@@ -67,6 +74,6 @@ class RuleController extends Controller
         $rule->delete();
 
         return redirect()->route('admin.support.rules.index')
-            ->with('success', 'Rule deleted successfully.');
+            ->with('success', 'Automation rule deleted successfully.');
     }
 }

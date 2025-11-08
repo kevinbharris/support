@@ -18,7 +18,8 @@ Drop‑in contact form and mini helpdesk for Bagisto v2.3.8. Turn inquiries into
 - **Canned Responses**: Pre-defined responses for quick replies
 - **SLA Management**: Automatic SLA due date calculation based on priority
 - **Activity Log**: Track all changes and actions on tickets
-- **Automation Rules**: Create rules to automate ticket handling
+- **Automation Rules**: Create rules to automatically transition ticket statuses based on time
+- **Scheduled Automation**: Hourly scheduled command to apply automation rules
 - **Slack Integration**: Get notifications in Slack channels
 
 ### Customer Features
@@ -226,22 +227,52 @@ CannedResponse::create([
 
 ### Creating Automation Rules
 
+Automation rules allow you to automatically transition ticket statuses after a specified time period:
+
 ```php
 use KevinBHarris\Support\Models\Rule;
 
 Rule::create([
-    'name' => 'Auto-assign urgent tickets',
-    'description' => 'Automatically assign urgent tickets to senior support',
-    'conditions' => [
-        'field' => 'priority_id',
-        'operator' => 'equals',
-        'value' => 4, // Urgent priority ID
-    ],
-    'actions' => [
-        'action' => 'assign',
-        'value' => 1, // Senior support user ID
-    ],
+    'name' => 'Auto-close resolved tickets',
+    'description' => 'Automatically close tickets that have been resolved for 72 hours',
+    'from_status_id' => 3, // Resolved status ID
+    'to_status_id' => 4,   // Closed status ID
+    'after_hours' => 72,
+    'is_enabled' => true,
 ]);
+```
+
+### Scheduling the Automation Command
+
+Add the automation command to your Laravel scheduler in `app/Console/Kernel.php`:
+
+```php
+protected function schedule(Schedule $schedule)
+{
+    $schedule->command('support:auto-transition-tickets')->hourly();
+}
+```
+
+Make sure your Laravel scheduler is running:
+
+```bash
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+### Configuration for Automation
+
+Enable or disable automation globally in your `.env`:
+
+```
+SUPPORT_AUTOMATION_ENABLED=true
+```
+
+Or in `config/support.php`:
+
+```php
+'automation' => [
+    'enabled' => env('SUPPORT_AUTOMATION_ENABLED', true),
+],
 ```
 
 ## Events

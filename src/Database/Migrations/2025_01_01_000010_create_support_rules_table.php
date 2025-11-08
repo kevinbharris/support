@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->json('conditions');
-            $table->json('actions');
-            $table->integer('sort_order')->default(0);
-            $table->boolean('is_active')->default(true);
+            $table->foreignId('from_status_id')->constrained('support_statuses')->onDelete('cascade');
+            $table->foreignId('to_status_id')->constrained('support_statuses')->onDelete('cascade');
+            $table->integer('after_hours')->default(24);
+            $table->boolean('is_enabled')->default(true);
             $table->timestamps();
         });
     }
