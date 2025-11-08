@@ -20,7 +20,6 @@ Drop‑in contact form and mini helpdesk for Bagisto v2.3.8. Turn inquiries into
 - **Activity Log**: Track all changes and actions on tickets
 - **Automation Rules**: Create rules to automate ticket handling
 - **Slack Integration**: Get notifications in Slack channels
-- **Access Control (ACL)**: Fine-grained permission control integrated with Bagisto's role system
 
 ### Customer Features
 - **Token Portal**: Secure token-based access to tickets (no login required)
@@ -141,31 +140,11 @@ SUPPORT_SLACK_USERNAME="Support Bot"
 ],
 ```
 
-### Access Control (ACL)
-
-The Support module integrates with Bagisto's built-in Access Control List (ACL) system. All permissions are automatically registered and available in the admin panel.
-
-**Configuring Permissions:**
-
-1. Go to **Bagisto Admin > Settings > Roles**
-2. Create a new role or edit an existing one
-3. Find the **Support** section in permissions
-4. Check the permissions you want to grant
-5. Save and assign the role to users
-
-**Available Permissions:**
-- Tickets (view, create, update, delete, assign, notes, watchers)
-- Statuses, Priorities, Categories (view, create, update, delete)
-- Canned Responses, Rules (view, create, update, delete)
-- Notes, Attachments (view, create, delete)
-
-See [ACL.md](ACL.md) for detailed documentation on permissions and role management.
-
 ## Usage
 
 ### Admin Routes
 
-All admin routes are prefixed with `/admin/support` and protected by permissions:
+All admin routes are prefixed with `/admin/support`:
 
 - `/admin/support/tickets` - List tickets
 - `/admin/support/tickets/create` - Create new ticket

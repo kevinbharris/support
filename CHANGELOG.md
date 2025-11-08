@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Removed - BREAKING CHANGE
+- **Complete ACL (Access Control List) integration removed**
+- Removed all ACL documentation files (ACL.md, ACL_QUICKSTART.md, ACL_IMPLEMENTATION.md, MAINTAINERS_ACL.md)
+- Removed ACL example file (examples/blade-acl-examples.blade.php)
+- Removed ACL config file (src/Config/acl.php)
+- Removed ACL translation file (src/Resources/lang/en/acl.php)
+- Removed all Policy classes (AttachmentPolicy, CannedResponsePolicy, CategoryPolicy, NotePolicy, PriorityPolicy, RulePolicy, StatusPolicy, TicketPolicy)
+- Removed AuthServiceProvider (src/Providers/AuthServiceProvider.php)
+- Removed SupportPermission middleware (src/Http/Middleware/SupportPermission.php)
+- Removed SupportPermissionsSeeder (src/Database/Seeders/SupportPermissionsSeeder.php)
+- Removed permission middleware from all admin routes
+- Removed permission keys from menu configuration
+- Removed ACL-related sections from README.md
+- Removed empty examples directory
+
+### Changed
+- Updated SupportServiceProvider to remove ACL configuration merging and middleware registration
+- Updated admin routes to remove all permission middleware checks
+- Updated menu configuration to remove permission-based visibility
+- All admin routes now only require standard Bagisto admin authentication
+- Package restored to simple contact form and mini helpdesk without role/permission management
+
+### Migration Notes
+- See [ROLLBACK_GUIDE.md](ROLLBACK_GUIDE.md) for detailed server upgrade instructions
+- All database tables remain unchanged
+- Existing tickets, statuses, priorities, categories, and other data are preserved
+- Old ACL permissions in Bagisto's roles table will remain but are not used
+- Run `composer update kevinbharris/support` and clear all Laravel caches
+
 ## [1.0.0] - 2025-01-01
 
 ### Added
