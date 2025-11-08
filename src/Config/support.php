@@ -98,4 +98,13 @@ return [
         'enabled' => true,
         'auto_assign_enabled' => true,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Automation Configuration
+    |--------------------------------------------------------------------------
+    */
+    'automation' => [
+        'enabled' => env('SUPPORT_AUTOMATION_ENABLED', true),
+    ],
 ];

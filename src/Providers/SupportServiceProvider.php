@@ -38,6 +38,10 @@ class SupportServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(dirname(__DIR__) . '/Resources/lang', 'support');
         
         if ($this->app->runningInConsole()) {
+            $this->commands([
+                \KevinBHarris\Support\Console\Commands\AutoTransitionTicketsByRule::class,
+            ]);
+
             $this->publishes([
                 dirname(__DIR__) . '/Config/support.php' => config_path('support.php'),
             ], 'support-config');

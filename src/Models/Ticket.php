@@ -28,6 +28,7 @@ class Ticket extends Model
         'resolved_at',
         'closed_at',
         'sla_due_at',
+        'status_changed_at',
     ];
 
     protected $casts = [
@@ -35,6 +36,7 @@ class Ticket extends Model
         'resolved_at' => 'datetime',
         'closed_at' => 'datetime',
         'sla_due_at' => 'datetime',
+        'status_changed_at' => 'datetime',
     ];
 
     protected static function boot()
@@ -47,6 +49,17 @@ class Ticket extends Model
             }
             if (empty($ticket->access_token)) {
                 $ticket->access_token = Str::random(64);
+            }
+            // Set initial status_changed_at when creating
+            if (!empty($ticket->status_id)) {
+                $ticket->status_changed_at = now();
+            }
+        });
+
+        static::updating(function ($ticket) {
+            // Track status changes
+            if ($ticket->isDirty('status_id')) {
+                $ticket->status_changed_at = now();
             }
         });
     }

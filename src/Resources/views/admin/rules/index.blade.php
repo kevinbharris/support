@@ -24,13 +24,16 @@
                             @lang('Name')
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">
-                            @lang('Description')
+                            @lang('From Status')
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">
-                            @lang('Sort Order')
+                            @lang('To Status')
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">
-                            @lang('Active')
+                            @lang('After Hours')
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">
+                            @lang('Enabled')
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">
                             @lang('Actions')
@@ -43,19 +46,33 @@
                             <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
                                 {{ $rule->name }}
                             </td>
-                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
-                                {{ $rule->description }}
-                            </td>
-                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
-                                {{ $rule->sort_order }}
-                            </td>
-                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
-                                {{ $rule->is_active ? __('Yes') : __('No') }}
+                            <td class="px-4 py-3">
+                                <span class="px-2 py-1 text-xs rounded" style="background-color: {{ $rule->fromStatus->color }}; color: white;">
+                                    {{ $rule->fromStatus->name }}
+                                </span>
                             </td>
                             <td class="px-4 py-3">
+                                <span class="px-2 py-1 text-xs rounded" style="background-color: {{ $rule->toStatus->color }}; color: white;">
+                                    {{ $rule->toStatus->name }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                                {{ $rule->after_hours }}h
+                            </td>
+                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                                {{ $rule->is_enabled ? __('Yes') : __('No') }}
+                            </td>
+                            <td class="px-4 py-3 flex gap-2">
                                 <a href="{{ route('admin.support.rules.edit', $rule->id) }}" class="text-blue-600 hover:underline text-sm">
                                     @lang('Edit')
                                 </a>
+                                <form action="{{ route('admin.support.rules.destroy', $rule->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this rule?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:underline text-sm">
+                                        @lang('Delete')
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

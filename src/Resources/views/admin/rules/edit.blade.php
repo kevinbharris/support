@@ -19,41 +19,67 @@
                     <label for="name" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
                         @lang('Name')
                     </label>
-                    <input type="text" name="name" id="name" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ $rule->name }}" required>
+                    <input type="text" name="name" id="name" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ old('name', $rule->name) }}" required>
+                    @error('name')
+                        <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="description" class="block text-xs text-gray-600 dark:text-gray-300 font-medium">
                         @lang('Description')
                     </label>
-                    <textarea name="description" id="description" class="flex w-full min-h-[75px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900">{{ $rule->description }}</textarea>
+                    <textarea name="description" id="description" class="flex w-full min-h-[75px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900">{{ old('description', $rule->description) }}</textarea>
+                    @error('description')
+                        <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
-                    <label for="conditions" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
-                        @lang('Conditions (JSON)')
+                    <label for="from_status_id" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
+                        @lang('From Status')
                     </label>
-                    <textarea name="conditions" id="conditions" class="flex w-full min-h-[100px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 font-mono transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" required>{{ json_encode($rule->conditions) }}</textarea>
+                    <select name="from_status_id" id="from_status_id" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" required>
+                        <option value="">@lang('Select Status')</option>
+                        @foreach($statuses as $status)
+                            <option value="{{ $status->id }}" {{ old('from_status_id', $rule->from_status_id) == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('from_status_id')
+                        <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
-                    <label for="actions" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
-                        @lang('Actions (JSON)')
+                    <label for="to_status_id" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
+                        @lang('To Status')
                     </label>
-                    <textarea name="actions" id="actions" class="flex w-full min-h-[100px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 font-mono transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" required>{{ json_encode($rule->actions) }}</textarea>
+                    <select name="to_status_id" id="to_status_id" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" required>
+                        <option value="">@lang('Select Status')</option>
+                        @foreach($statuses as $status)
+                            <option value="{{ $status->id }}" {{ old('to_status_id', $rule->to_status_id) == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('to_status_id')
+                        <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
-                    <label for="sort_order" class="block text-xs text-gray-600 dark:text-gray-300 font-medium">
-                        @lang('Sort Order')
+                    <label for="after_hours" class="block text-xs text-gray-600 dark:text-gray-300 font-medium required">
+                        @lang('After Hours')
                     </label>
-                    <input type="number" name="sort_order" id="sort_order" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ $rule->sort_order }}">
+                    <input type="number" name="after_hours" id="after_hours" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ old('after_hours', $rule->after_hours) }}" min="1" required>
+                    <small class="text-xs text-gray-500">@lang('Number of hours to wait before transitioning status')</small>
+                    @error('after_hours')
+                        <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label class="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                        <input type="checkbox" name="is_active" value="1" {{ $rule->is_active ? 'checked' : '' }} class="mr-2">
-                        @lang('Active')
+                        <input type="checkbox" name="is_enabled" value="1" {{ old('is_enabled', $rule->is_enabled) ? 'checked' : '' }} class="mr-2">
+                        @lang('Enabled')
                     </label>
                 </div>
             </div>
