@@ -106,7 +106,14 @@
                     <label for="assigned_to" class="block text-xs text-gray-600 dark:text-gray-300 font-medium">
                         @lang('Assign To')
                     </label>
-                    <input type="number" name="assigned_to" id="assigned_to" class="flex w-full min-h-[39px] py-2 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900" value="{{ old('assigned_to') }}">
+                    <select name="assigned_to" id="assigned_to" class="flex w-full min-h-[39px] py-2 px-3 bg-white dark:bg-gray-900 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:border-gray-800">
+                        <option value="">@lang('-- Select User --')</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}" {{ old('assigned_to') == $user->id ? 'selected' : '' }}>
+                                {{ $user->display_name }}
+                            </option>
+                        @endforeach
+                    </select>
                     @error('assigned_to')
                         <span class="text-xs text-red-600">{{ $message }}</span>
                     @enderror

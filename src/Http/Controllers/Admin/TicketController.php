@@ -57,8 +57,29 @@ class TicketController extends Controller
         $statuses = Status::where('is_active', true)->orderBy('sort_order')->get();
         $priorities = Priority::where('is_active', true)->orderBy('sort_order')->get();
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
+        
+        // Get users from Bagisto admin users table
+        // Format as collection with id, last_name, first_name, email for the dropdown
+        $users = \DB::table('admins')
+            ->select('id', 'name', 'email')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($user) {
+                // Parse name into first and last name
+                $nameParts = explode(' ', trim($user->name), 2);
+                $firstName = $nameParts[0] ?? '';
+                $lastName = $nameParts[1] ?? '';
+                
+                return (object) [
+                    'id' => $user->id,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'email' => $user->email,
+                    'display_name' => $user->id . ', ' . $lastName . ', ' . $firstName . ' <' . $user->email . '>',
+                ];
+            });
 
-        return view('support::admin.tickets.create', compact('statuses', 'priorities', 'categories'));
+        return view('support::admin.tickets.create', compact('statuses', 'priorities', 'categories', 'users'));
     }
 
     public function store(Request $request)
@@ -113,8 +134,29 @@ class TicketController extends Controller
         $statuses = Status::where('is_active', true)->orderBy('sort_order')->get();
         $priorities = Priority::where('is_active', true)->orderBy('sort_order')->get();
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
+        
+        // Get users from Bagisto admin users table
+        // Format as collection with id, last_name, first_name, email for the dropdown
+        $users = \DB::table('admins')
+            ->select('id', 'name', 'email')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($user) {
+                // Parse name into first and last name
+                $nameParts = explode(' ', trim($user->name), 2);
+                $firstName = $nameParts[0] ?? '';
+                $lastName = $nameParts[1] ?? '';
+                
+                return (object) [
+                    'id' => $user->id,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'email' => $user->email,
+                    'display_name' => $user->id . ', ' . $lastName . ', ' . $firstName . ' <' . $user->email . '>',
+                ];
+            });
 
-        return view('support::admin.tickets.edit', compact('ticket', 'statuses', 'priorities', 'categories'));
+        return view('support::admin.tickets.edit', compact('ticket', 'statuses', 'priorities', 'categories', 'users'));
     }
 
     public function update(Request $request, $id)
